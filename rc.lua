@@ -85,7 +85,7 @@ end
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
-editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vi"
+editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 menubar.utils.terminal = terminal
@@ -189,6 +189,7 @@ calendar2.addCalendarToWidget(mytextclock, "<span color='green'>%s</span>")
 mycpuwidget = wibox.widget.textbox()
 vicious.register(mycpuwidget, vicious.widgets.cpu, "$1%")
 
+-- battery widget
 mybattery = wibox.widget.textbox()
 vicious.register(mybattery, function(format, warg)
     local args = vicious.widgets.bat(format, warg)
@@ -199,7 +200,6 @@ vicious.register(mybattery, function(format, warg)
     end
     return args
 end, '<span foreground="${color}">bat: $2% $3h</span>', 10, 'BAT0')
-
 
 -- Weather widget
 myweatherwidget = wibox.widget.textbox()
@@ -212,14 +212,13 @@ vicious.register(myweatherwidget, vicious.widgets.weather,
           --'1800': check every 30 minutes.
           --'EDDN': Nuernberg ICAO code.
 
-
 -- Keyboard map indicator and changer
 -- default keyboard is us, second is german adapt to your needs
 --
 
 kbdcfg = {}
 kbdcfg.cmd = "setxkbmap"
-kbdcfg.layout = { { "us", "" } }
+kbdcfg.layout = { { "us", "" } , { "ru", "" } }
 kbdcfg.current = 1  -- us is our default layout
 kbdcfg.widget = wibox.widget.textbox()
 kbdcfg.widget.set_align = "right"
@@ -235,6 +234,9 @@ end
 kbdcfg.widget:buttons(awful.util.table.join(
     awful.button({ }, 1, function () kbdcfg.switch() end)
 ))
+
+-- Alt + Right Shift switches the current keyboard layout
+--    awful.key({ "Mod1" }, "Shift_R", function () kbdcfg.switch() end),
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -347,6 +349,7 @@ awful.screen.connect_for_each_screen(function(s)
             separator,
             spacer,
 
+	    --[[  #AF - removed battery and weather
             mybattery,
             spacer,
             separator,
@@ -357,6 +360,7 @@ awful.screen.connect_for_each_screen(function(s)
             separator,
             spacer,
             s.mylayoutbox,
+	    ]]
         },
     }
 end)
@@ -510,6 +514,12 @@ globalkeys = awful.util.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"})
+
+    -- AF: Shift switches the current keyboard layout
+    -- awful.key({ "Mod1" }, "Shift_R", function () kbdcfg.switch() end)
+    -- it works 
+    -- awful.key({}, "Caps_Lock", function () kbdcfg.switch() end)
+    -- it works in a funny way: it switch layaout and switch on capslock
 )
 
 clientkeys = awful.util.table.join(
@@ -727,3 +737,9 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+--- AF - run programs
+-- nm-applet, it requires NetworkManager to run as service and pgrep
+awful.util.spawn_with_shell("pgrep -u $USER -x nm-applet > /dev/null || (nm-applet &)")
+awful.util.spawn_with_shell("pgrep -u $USER -x xscreensaver > /dev/null || (xscreensaver &)")
+
