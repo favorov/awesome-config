@@ -739,8 +739,14 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
---- AF - run programs
+-- AF - run programs
+---[[ it makes more sense to run it in .xinitrc 
 -- nm-applet, it requires NetworkManager to run as service and pgrep
-awful.util.spawn_with_shell("pgrep -u $USER -x nm-applet > /dev/null || (nm-applet &)")
+awful.util.spawn_with_shell("pgrep -u $USER -x nm-applet --indicator > /dev/null || (nm-applet &)")
 awful.util.spawn_with_shell("pgrep -u $USER -x xscreensaver > /dev/null || (xscreensaver &)")
+--]]
+
+-- AF - xrandr calls - better to run in ??
+awful.util.spawn_with_shell('xrandr --auto')
+awful.util.spawn_with_shell('xrandr --output DisplayPort-0 --right-of DVI-0')
 
