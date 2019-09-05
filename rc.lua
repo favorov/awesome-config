@@ -358,9 +358,10 @@ awful.screen.connect_for_each_screen(function(s)
             myweatherwidget,
             spacer,
             separator,
-            spacer,
+		
+	    --]]
+	    spacer,
             s.mylayoutbox,
-	    ]]
         },
     }
 end)
