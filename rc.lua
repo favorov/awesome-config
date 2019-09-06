@@ -740,10 +740,17 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- AF - run programs
----[[ it makes more sense to run it in .xinitrc 
--- nm-applet, it requires NetworkManager to run as service and pgrep
-awful.util.spawn_with_shell("pgrep -u $USER -x nm-applet --indicator > /dev/null || (nm-applet &)")
-awful.util.spawn_with_shell("pgrep -u $USER -x xscreensaver > /dev/null || (xscreensaver &)")
+---[[ maybe it makes more sense to run it in .xinitrc 
+
+-- This function will run once every time Awesome is started
+-- from awesom-copycat
+local function run_once(cmd_arr)
+    for _, cmd in ipairs(cmd_arr) do
+        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
+    end
+end
+
+run_once({ "nm-applet --indicator", "xscreensaver" , "pasystray" }) -- entries must be separated by commas
 --]]
 
 -- AF - xrandr calls - better to run in ??
