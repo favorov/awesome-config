@@ -740,7 +740,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- AF - run programs
----[[ maybe it makes more sense to run it in .xinitrc 
 
 -- This function will run once every time Awesome is started
 -- from awesom-copycat
@@ -750,10 +749,10 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "nm-applet --indicator", "xscreensaver" , "pasystray" }) -- entries must be separated by commas
---]]
-
 -- AF - xrandr calls - better to run in ??
-awful.util.spawn_with_shell('xrandr --auto')
-awful.util.spawn_with_shell('xrandr --output DisplayPort-0 --right-of DVI-0')
+awful.spawn.with_shell('xrandr --auto')
+awful.spawn.with_shell('xrandr --output DP-2 --left-of DP-1')
+run_once({ "xscreensaver" , "blueman-tray" }) -- entries must be separated by commas
+
+--awful.spawn.with_shell('xrandr --output DisplayPort-0 --right-of DVI-0')
 
