@@ -84,7 +84,7 @@ do
 end
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
+terminal = "kgx"
 editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -752,7 +752,7 @@ end
 -- AF - xrandr calls - better to run in ??
 awful.spawn.with_shell('xrandr --auto')
 awful.spawn.with_shell('xrandr --output DP-2 --left-of DP-1')
-run_once({ "xscreensaver" , "blueman-tray" }) -- entries must be separated by commas
+run_once({ "xscreensaver" , "blueman-applet" }) -- entries must be separated by commas
 
 --awful.spawn.with_shell('xrandr --output DisplayPort-0 --right-of DVI-0')
 
