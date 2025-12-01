@@ -73,7 +73,7 @@ theme.titlebar_maximized_button_focus_inactive  = "/usr/share/awesome/themes/ope
 theme.titlebar_maximized_button_normal_active = "/usr/share/awesome/themes/openSUSE/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/openSUSE/titlebar/maximized_focus_active.png"
 
-theme.wallpaper = "/usr/share/awesome/themes/default/background_white.png"
+theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/openSUSE/layouts/fairhw.png"
